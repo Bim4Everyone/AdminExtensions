@@ -12,9 +12,9 @@ document = __revit__.ActiveUIDocument.Document
 
 elements = FilteredElementCollector(document).OfClass(SharedParameterElement).WhereElementIsNotElementType().ToElements()
 if elements:
-    result = [ "Id;ParamName" ]
+    result = [ "GUID;Id;ParamName" ]
     for element in elements:
-        result.append(str(element.Id.IntegerValue) + ";" + element.Name)
+        result.append(str(element.GuidValue) +";" + str(element.Id.IntegerValue) + ";" + element.Name)
 
     fileName = forms.save_file(files_filter="csv files (*.csv)|*.csv", default_name="Параметры")
     if fileName:
