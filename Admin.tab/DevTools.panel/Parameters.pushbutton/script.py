@@ -1,21 +1,27 @@
 # -*- coding: utf-8 -*-
 
-from System.Collections.Generic import List
-
 from Autodesk.Revit.DB import *
+from extensions import *
 
 document = __revit__.ActiveUIDocument.Document
 
-elements = FilteredElementCollector(document).OfClass(SharedParameterElement).WhereElementIsNotElementType().ToElements()
-if elements:
-    elements = [ element for element in elements if element.GetDependentElements(None).Count == 1  ]
+
+def remove_parameters():
+    shared_params = get_shared_parameters(document)
+
     with Transaction(document) as transaction:
         transaction.Start("Удаление параметров")
-        for element in elements:
+
+        for shared_param in shared_params:
             try:
-                print str(element.GuidValue) +" - " + str(element.Id.IntegerValue) + " - " + element.Name
-                document.Delete(element.Id)
+                print str(shared_param.GuidValue) + " - " + str(
+                    shared_param.Id.IntegerValue) + " - " + shared_param.Name
+
+                document.Delete(shared_param.Id)
             except Exception as ex:
                 print str(ex)
 
         transaction.Commit()
+
+
+remove_parameters()
