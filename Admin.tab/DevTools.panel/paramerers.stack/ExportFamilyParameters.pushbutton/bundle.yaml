@@ -1,0 +1,9 @@
+title:
+  ru: "Экспорт ФОП\nпараметров в Excel"
+  en_us: "Export shared\nparameters to Excel"
+
+tooltip:
+  ru: Экспортирует ФОП параметры семейства в Excel.
+  en_us: Exports Shared parameters to Excel.
+
+author: dosymep

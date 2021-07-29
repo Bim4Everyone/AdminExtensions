@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from Autodesk.Revit.DB import *
 from extensions import *
+from Autodesk.Revit.DB import *
 
 document = __revit__.ActiveUIDocument.Document
 
 
 def remove_parameters():
-    shared_params = get_shared_parameters(document)
+    shared_params = get_trash_parameters(document)
 
     with Transaction(document) as transaction:
         transaction.Start("Удаление параметров")
