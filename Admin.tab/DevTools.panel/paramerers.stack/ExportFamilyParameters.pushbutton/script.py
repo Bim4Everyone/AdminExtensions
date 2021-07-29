@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import clr
+
 clr.AddReference("EPPlus")
 
 from System.IO import *
@@ -37,7 +38,9 @@ def get_shared_parameters(document):
     return result
 
 
-def export_to_excel(shared_params):
+def export_to_excel():
+    file_name, shared_params = get_script_data()
+
     with ExcelPackage() as excelPackage:
         for (document, params) in shared_params:
             if not params:
@@ -60,19 +63,23 @@ def export_to_excel(shared_params):
                 worksheet.Cells[index, 2].Value = param.Id.IntegerValue
                 worksheet.Cells[index, 3].Value = param.Name
 
-            worksheet.Cells.AutoFitColumns(0);
+            worksheet.Cells.AutoFitColumns(0)
 
-        excelPackage.SaveAs(FileInfo(fileName))
+        excelPackage.SaveAs(FileInfo(file_name))
 
-    Process.Start(fileName)
+    Process.Start(file_name)
 
 
-shared_params = get_shared_parameters(active_document)
-if not shared_params:
-    script.exit()
+def get_script_data():
+    shared_params = get_shared_parameters(active_document)
+    if not shared_params:
+        script.exit()
 
-fileName = forms.save_file(files_filter="Excel файлы (*.xlsx)|*.xlsx", default_name=active_document.Title)
-if not fileName:
-    script.exit()
+    file_name = forms.save_file(files_filter="Excel файлы (*.xlsx)|*.xlsx", default_name=active_document.Title)
+    if not file_name:
+        script.exit()
 
-export_to_excel(shared_params)
+    return file_name, shared_params
+
+
+export_to_excel()
