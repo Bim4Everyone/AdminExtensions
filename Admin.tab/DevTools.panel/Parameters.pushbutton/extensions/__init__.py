@@ -11,8 +11,8 @@ def get_parameters(document):
     params = [params for element in elements
               for params in element.GetOrderedParameters()]
 
-    params = [param.Definition.Name for param in params
-              if param.Definition and param.IsShared]
+    params = [param.GUID for param in params
+              if param.IsShared]
 
     for family_document in get_families_documents(document):
         shared_params = FilteredElementCollector(family_document) \
@@ -20,7 +20,7 @@ def get_parameters(document):
             .WhereElementIsNotElementType() \
             .ToElements()
 
-        params.extend([shared_param.Name for shared_param in shared_params])
+        params.extend([shared_param.GuidValue for shared_param in shared_params])
 
     return set(params)
 
@@ -37,7 +37,7 @@ def get_shared_parameters(document):
                      if shared_param.GetDependentElements(None).Count == 1]
 
     return sorted([shared_param for shared_param in shared_params
-                   if shared_param.Name not in params],
+                   if shared_param.GuidValue not in params],
                   key=lambda element: element.Name)
 
 
