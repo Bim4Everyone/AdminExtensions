@@ -23,5 +23,4 @@ def remove_parameters():
 
         transaction.Commit()
 
-
 remove_parameters()

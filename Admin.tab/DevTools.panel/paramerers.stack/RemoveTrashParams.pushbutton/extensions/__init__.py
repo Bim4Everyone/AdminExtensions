@@ -2,7 +2,6 @@
 
 from Autodesk.Revit.DB import *
 
-
 def get_families_documents(document):
     families = FilteredElementCollector(document) \
         .OfClass(Family) \
@@ -13,13 +12,16 @@ def get_families_documents(document):
 
 def get_shared_parameters(document):
     result = []
-    for family_document in get_families_documents(document):
-        shared_params = FilteredElementCollector(family_document) \
-            .OfClass(SharedParameterElement) \
-            .WhereElementIsNotElementType() \
-            .ToElements()
 
-        result.extend(shared_params)
+    for family_document in get_families_documents(document):
+        if family_document.IsValidObject:
+            shared_params = FilteredElementCollector(family_document) \
+                .OfClass(SharedParameterElement) \
+                .WhereElementIsNotElementType() \
+                .ToElements()
+
+            result.extend(list([shared_param.GuidValue for shared_param in shared_params]))
+            family_document.Close(False)
 
     return result
 
@@ -34,7 +36,7 @@ def get_guid_parameters(document):
     params = [param.GUID for param in params
               if param.IsShared]
 
-    params.extend([shared_param.GuidValue for shared_param in get_shared_parameters(document)])
+    params.extend(get_shared_parameters(document))
 
     return set(params)
 
