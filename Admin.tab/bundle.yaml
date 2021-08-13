@@ -1,3 +1,5 @@
 layout:
   - Settings
+  - Спецификация
   - DevTools
+  - UnitTests
