@@ -1,0 +1,13 @@
+title:
+  ru: Скрипт Dynamo
+  en_us: Dynamo Script
+
+tooltip:
+  ru: Запускает скрипт Dynamo.
+  en_us: Launch Dynamo Script
+  
+engine:
+  clean: false
+  automate: false
+  
+author: dosymep

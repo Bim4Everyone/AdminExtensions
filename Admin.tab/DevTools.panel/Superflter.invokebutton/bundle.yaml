@@ -1,0 +1,12 @@
+title:
+  ru: "Суперфильтр"
+  en_us: "Superfilter"
+
+tooltip:
+  ru: Суперфильтр.
+  en_us: Superfilter.
+
+assembly: Superfilter.dll
+command_class: SuperfilterCommand
+
+author: dosymep
