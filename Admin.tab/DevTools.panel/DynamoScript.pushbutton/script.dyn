@@ -1,0 +1,166 @@
+{
+  "Uuid": "3c9d0464-8643-5ffe-96e5-ab1769818209",
+  "IsCustomNode": false,
+  "Description": "",
+  "Name": "script",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport msvcrt\r\nimport System\r\n\r\nclr.AddReference(\"RevitAPIUI\")\r\nfrom  Autodesk.Revit.UI import *\r\n\r\nbutton = TaskDialogCommonButtons.None\r\nresult = TaskDialogResult.Ok\r\nif IN[0] == True:\r\n\tTaskDialog.Show('User Text',IN[1],button)\r\n\tresult = IN[1]\r\nelse:\r\n\tresult = \"Set run to true\"\r\n\r\nraise Exception(\"Че каво брат?\")\r\n\t\t\r\nOUT = result",
+      "VariableInputPorts": true,
+      "Id": "681d56833ae34d1caecd3fa53ea0f3e6",
+      "Inputs": [
+        {
+          "Id": "43420070ec544ea8ba078d131492201b",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "2e595f0a3403471ca65777547273cf03",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b0930a8c8c3440f58eef600ff14cc61f",
+          "Name": "OUT",
+          "Description": "Результат сценария Python",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Выполнение встроенного сценария IronPython."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": true,
+      "Id": "bc5481aa1c2840a897797f33d3bdcefe",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "43167a447abf40edbd1e6ee780b9728d",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Выбор между значениями true и false."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "\"message\";",
+      "Id": "5f598b091f2f40f694d133798c90e0d7",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "798ae6e676834a2d96e72f36647ef51c",
+          "Name": "",
+          "Description": "Значение выражения в строке 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Обеспечивает возможность непосредственного авторства кода DesignScript"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "43167a447abf40edbd1e6ee780b9728d",
+      "End": "43420070ec544ea8ba078d131492201b",
+      "Id": "3fe3fa3f428c4d7d831e95ce3957b89a"
+    },
+    {
+      "Start": "798ae6e676834a2d96e72f36647ef51c",
+      "End": "2e595f0a3403471ca65777547273cf03",
+      "Id": "20b810fe258a4ea4a133e97239d6f94b"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.3.0.5885",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Фоновый просмотр",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "import clr\r\nimport msvcrt\r\n\r\nclr.AddReference(\"RevitAPIUI\")\r\nfrom  Autodesk.Revit.UI import *\r\n\r\nbutton = TaskDialogCommonButtons.None\r\nresult = TaskDialogResult.Ok\r\nif IN[0] == True:\r\n\tTaskDialog.Show('User Text',IN[1],button)\r\n\tresult = IN[1]\r\nelse:\r\n\tresult = \"Set run to true\"\r\n\t\t\r\nOUT = result",
+        "Id": "681d56833ae34d1caecd3fa53ea0f3e6",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1995.4195964821338,
+        "Y": -403.69064944732412
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Boolean",
+        "Id": "bc5481aa1c2840a897797f33d3bdcefe",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1757.2117422577617,
+        "Y": -454.55795165148686
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "5f598b091f2f40f694d133798c90e0d7",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1715.6494343592385,
+        "Y": -387.5619926508823
+      }
+    ],
+    "Annotations": [],
+    "X": -2672.2931459653705,
+    "Y": 1035.1625995079241,
+    "Zoom": 1.6120375260099704
+  }
+}
