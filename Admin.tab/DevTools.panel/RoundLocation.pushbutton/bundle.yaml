@@ -1,0 +1,9 @@
+title:
+  ru: Округление позиции
+  en_us: Round location
+
+tooltip:
+  ru: Округляет позиции выделенных элементов.
+  en_us: Rounds location selected elements.
+
+author: dosymep
