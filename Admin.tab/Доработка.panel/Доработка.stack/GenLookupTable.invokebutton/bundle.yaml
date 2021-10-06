@@ -1,0 +1,12 @@
+title:
+  ru: "Генерация таблицы выбора"
+  en_us: "Generate lookup table"
+
+tooltip:
+  ru: Генерирует таблицу выбора.
+  en_us: Generates lookup table.
+
+assembly: RevitGenLookupTables.dll
+command_class: RevitGenLookupTablesCommand
+
+author: dosymep
