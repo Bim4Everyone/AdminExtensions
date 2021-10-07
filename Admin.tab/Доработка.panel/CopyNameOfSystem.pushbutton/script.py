@@ -18,13 +18,6 @@ from dosymep.Bim4Everyone.SharedParams import SharedParamsConfig
 
 document = __revit__.ActiveUIDocument.Document
 
-output = output.get_output()
-output.set_title("Обновление атрибута \"{}\"".format(SharedParamsConfig.Instance.MechanicalSystemName.Name))
-
-
-def format_row(element, message):
-	return [output.linkify(element.Id), element.Name, message]
-
 
 def get_elements():
 	categories = [BuiltInCategory.OST_MechanicalEquipment, 	#Оборудование
@@ -67,20 +60,20 @@ def update_system_name(element):
 
 
 def update_element(elements):
-	report_rows = []
+	report_rows = set()
 	for element in elements:
 		try:
 			edited_by = element.GetParamValueOrDefault(BuiltInParameter.EDITED_BY)
 			if edited_by and edited_by != __revit__.Application.Username:
-				report_rows.append(format_row(element, "Элемент редактируется: " + edited_by))
+				report_rows.add(edited_by)
 				continue
 
 			update_system_name(element)
 			if hasattr(element, "GetSubComponentIds"):
 				sub_elements = [document.GetElement(element_id) for element_id in element.GetSubComponentIds()]
 				update_element(sub_elements)
-		except Exception as ex:
-			report_rows.append(format_row(element, ex))
+		except: # надеюсь это маловероятный сценарий
+			pass
 
 	return report_rows
 
@@ -95,14 +88,12 @@ def script_execute():
 
 		elements = get_elements()
 		report_rows = update_element(elements)
-
 		if report_rows:
-			output.print_table(table_data=report_rows,
-							   title="Не обработанные элементы",
-							   columns=["Идентификатор", "Элемент", "Сообщение"])
+			output1 = output.get_output()
+			output1.set_title("Обновление атрибута \"{}\"".format(SharedParamsConfig.Instance.MechanicalSystemName.Name))
 
-		if not report_rows:
-			output.close()
+			print "Некоторые элементы не были обработаны, так как были заняты пользователями:"
+			print "\r\n".join(report_rows)
 
 		transaction.Commit()
 
