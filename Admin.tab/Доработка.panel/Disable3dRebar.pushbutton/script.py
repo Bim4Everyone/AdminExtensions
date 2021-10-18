@@ -7,4 +7,4 @@ application = __revit__.Application
 document = __revit__.ActiveUIDocument.Document
 
 
-set_solid_in_view(application, document, True)
+set_solid_in_view(application, document, False)
