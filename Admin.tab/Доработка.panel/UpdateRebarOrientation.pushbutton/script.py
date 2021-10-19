@@ -8,6 +8,8 @@ import dosymep
 clr.ImportExtensions(dosymep.Revit)
 clr.ImportExtensions(dosymep.Bim4Everyone)
 
+from math import sqrt
+
 from System import *
 from System.Collections.Generic import *
 
@@ -28,6 +30,27 @@ if not isinstance(document.ActiveView, View3D):
     forms.alert("Активный вид должен быть 3D", exitscript=True)
 
 
+def get_subtract(bounding_box):
+    return bounding_box.Max - bounding_box.Min
+
+
+def get_hypotenuse(bounding_box):
+    bb_min = bounding_box.Min
+    bb_max = bounding_box.Max
+
+    return sqrt((bb_max.X - bb_min.X) ** 2 + (bb_max.Y - bb_min.Y) ** 2)
+
+
+def ZIsLonger(subtract):
+    return subtract.Z > subtract.X and subtract.Z > subtract.Y
+
+def XIsLonger(subtract):
+    return subtract.X > subtract.Z and subtract.X > subtract.Y
+
+def YIsLonger(subtract):
+    return subtract.Y > subtract.Z and subtract.Y > subtract.X
+
+
 class RebarElement:
     def __init__(self, element):
         self.Element = element
@@ -37,36 +60,46 @@ class RebarElement:
     def BoundingBox(self):
         solid = next((g for g in self.Element.get_Geometry(options) if isinstance(g, Solid)), None)
         if solid:
-            return solid.GetBoundingBox().Max - solid.GetBoundingBox().Min
+            return solid.GetBoundingBox()
 
-        return self.Element.get_BoundingBox(activeView).Max - self.Element.get_BoundingBox(activeView).Min
+        return self.Element.get_BoundingBox(activeView)
 
     @property
     def HostCategory(self):
         return self.Host.Category
 
     @property
+    def HostBoundingBox(self):
+        return self.Host.get_BoundingBox(activeView)
+
+    @property
     def ZIsLonger(self):
-        return self.BoundingBox.Z > self.BoundingBox.X and self.BoundingBox.Z > self.BoundingBox.Y
+        subtract = get_subtract(self.BoundingBox)
+        return subtract.Z > subtract.X and subtract.Z > subtract.Y
 
     @property
     def XIsLonger(self):
-        return self.BoundingBox.X > self.BoundingBox.Z and self.BoundingBox.X > self.BoundingBox.Y
+        subtract = get_subtract(self.BoundingBox)
+        return subtract.X > subtract.Z and subtract.X > subtract.Y
 
     @property
     def YIsLonger(self):
-        return self.BoundingBox.Y > self.BoundingBox.Z and self.BoundingBox.Y > self.BoundingBox.X
+        subtract = get_subtract(self.BoundingBox)
+        return subtract.Y > subtract.Z and subtract.Y > subtract.X
 
     @property
     def IsAllowProcess(self):
         if self.HostCategory.Id == ElementId(BuiltInCategory.OST_Walls):
-            wall_bounding_box = self.Host.get_BoundingBox(activeView).Max - self.Host.get_BoundingBox(activeView).Min
-            if wall_bounding_box.Z > wall_bounding_box.X and wall_bounding_box.Z > wall_bounding_box.Y:
-                return (wall_bounding_box.Z / 2) < self.BoundingBox.Z
-            elif wall_bounding_box.X > wall_bounding_box.Z and wall_bounding_box.X > wall_bounding_box.Y:
-                return (wall_bounding_box.X / 2) < self.BoundingBox.X
-            else:
-                return (wall_bounding_box.Y / 2) < self.BoundingBox.Y
+            self_subtract = get_subtract(self.BoundingBox)
+            wall_subtract = get_subtract(self.HostBoundingBox)
+
+            if ZIsLonger(self_subtract):
+                return 2 * self_subtract.Z > wall_subtract.Z
+
+            length = get_hypotenuse(self.BoundingBox)
+            wall_length = get_hypotenuse(self.HostBoundingBox)
+
+            return 2 * length > wall_length
 
         return True
 
@@ -91,10 +124,10 @@ with Transaction(document) as transaction:
     transaction.Start("Обновление ориентации арматуры")
 
     for rebar in rebar_elements:
+        host_mark = rebar.Element.GetParamValueOrDefault(BuiltInParameter.REBAR_ELEM_HOST_MARK)
+        rebar.Element.SetParamValue("Мрк.МаркаКонструкции", host_mark)
         if rebar.IsAllowProcess:
-            host_mark = rebar.Element.GetParamValueOrDefault(BuiltInParameter.REBAR_ELEM_HOST_MARK)
             structure_mark = "{}{}".format(host_mark, "_Вертик" if rebar.ZIsLonger else "_Гориз")
-
             rebar.Element.SetParamValue("Мрк.МаркаКонструкции", structure_mark)
 
     transaction.Commit()
