@@ -20,13 +20,11 @@ import RevitFamilyExplorer
 def __selfinit__(script_cmp, ui_button_cmp, __rvt__):
     # чтобы нормально работала панель,
     # она должна быть инициализированная заранее
-    #RevitFamilyExplorer.RegisterFamilyExplorerCommand().Execute(__rvt__)
-    pass
+    RevitFamilyExplorer.RegisterFamilyExplorerCommand().Execute(__rvt__)
 
 
 def open_family_explorer():
-    #RevitFamilyExplorer.FamilyExplorerCommand().Execute(__revit__)
-    pass
+    RevitFamilyExplorer.FamilyExplorerCommand().Execute(__revit__)
 
 
 if __name__ == '__main__':
