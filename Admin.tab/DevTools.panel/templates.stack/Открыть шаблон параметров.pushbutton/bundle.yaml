@@ -1,0 +1,16 @@
+title:
+  ru: Открыть шаблон параметров
+  en_us: Open params template
+
+tooltip:
+  ru: >- 
+    Открывает шаблон параметров используемый платформой для настройки проектов Revit. 
+    
+    В шаблоне параметров хранятся все параметры и спецификации используемые плагинами.
+  en_us: >-
+    Opens the settings template used by the platform to set up Revit projects.
+
+    The options template stores all the options and specifications used by plugins.
+
+author: dosymep
+context: zero-doc
