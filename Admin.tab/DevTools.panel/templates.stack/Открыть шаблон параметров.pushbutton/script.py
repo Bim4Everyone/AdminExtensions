@@ -23,7 +23,7 @@ from Autodesk.Revit.DB import *
 def script_execute(plugin_logger):
     if not __revit__.Application.Username.lower() == "biseuv_o" \
             or __revit__.Application.Username.lower() == "budaeva_v" \
-            or __revit__.Application.Username.lower() == "Tikhomirov_amGVXAD":
+            or __revit__.Application.Username.lower() == "tikhomirov_amgvxad":
         script.exit()
 
     __revit__.OpenAndActivateDocument(ModuleEnvironment.ParametersTemplatePath)
