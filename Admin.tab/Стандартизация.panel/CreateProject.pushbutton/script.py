@@ -18,7 +18,7 @@ from dosymep_libs.simple_services import notification
 application = __revit__.Application # type: Application
 
 template_file_path = r"T:\Проектный институт\Отдел стандартизации BIM и RD\BIM-Ресурсы\5-Надстройки\Bim4Everyone\A101"
-template_file_path = os.path.join(template_file_path, application.VersionNumber, "RevitCopyStandarts")
+template_file_path = os.path.join(template_file_path, application.VersionNumber, "RevitCopyStandarts\Test\Пустой.rte")
 
 def get_file_path():
     with SaveFileDialog() as dialog:
