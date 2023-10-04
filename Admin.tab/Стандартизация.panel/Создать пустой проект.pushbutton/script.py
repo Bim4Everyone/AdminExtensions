@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import os
-
 import clr
 clr.AddReference("System.Windows.Forms")
+clr.AddReference("dosymep.Revit.dll")
+clr.AddReference("dosymep.Bim4Everyone.dll")
 
 from System.Windows.Forms import *
 
@@ -12,13 +12,13 @@ from Autodesk.Revit.ApplicationServices import *
 
 from pyrevit import EXEC_PARAMS
 
-from dosymep_libs.bim4everyone import log_plugin
-from dosymep_libs.simple_services import notification
+from dosymep.Revit import *
+from dosymep.Bim4Everyone import *
+from dosymep_libs.bim4everyone import *
+from dosymep_libs.simple_services import *
 
-application = __revit__.Application # type: Application
+application = __revit__.Application  # type: Application
 
-template_file_path = r"T:\Проектный институт\Отдел стандартизации BIM и RD\BIM-Ресурсы\5-Надстройки\Bim4Everyone\A101"
-template_file_path = os.path.join(template_file_path, application.VersionNumber, "RevitCopyStandarts\Test\Пустой.rte")
 
 def get_file_path():
     with SaveFileDialog() as dialog:
@@ -30,12 +30,13 @@ def get_file_path():
 
     return None
 
+
 @notification()
 @log_plugin(EXEC_PARAMS.command_name)
 def script_execute(plugin_logger):
     file_name = get_file_path()
     if file_name:
-        document = application.NewProjectDocument(template_file_path)
+        document = application.NewProjectDocument(ModuleEnvironment.EmptyTemplatePath)
         document.SaveAs(file_name, SaveAsOptions())
         document.Close(False)
 
