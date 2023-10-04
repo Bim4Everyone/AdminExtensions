@@ -3,6 +3,8 @@
 import clr
 
 clr.AddReference("EPPlus")
+clr.AddReference("dosymep.Revit.dll")
+clr.AddReference("dosymep.Bim4Everyone.dll")
 
 from System.IO import *
 from System.Diagnostics import *
@@ -12,6 +14,10 @@ from Autodesk.Revit.DB import *
 
 from pyrevit import forms
 from pyrevit import script
+
+import dosymep
+clr.ImportExtensions(dosymep.Revit)
+clr.ImportExtensions(dosymep.Bim4Everyone)
 
 active_document = __revit__.ActiveUIDocument.Document
 
@@ -60,7 +66,7 @@ def export_to_excel():
 
             for (param, index) in zip(params, range(2, len(params) + 2)):
                 worksheet.Cells[index, 1].Value = param.GuidValue
-                worksheet.Cells[index, 2].Value = param.Id.IntegerValue
+                worksheet.Cells[index, 2].Value = param.Id.GetIdValue()
                 worksheet.Cells[index, 3].Value = param.Name
 
             worksheet.Cells.AutoFitColumns(0)
