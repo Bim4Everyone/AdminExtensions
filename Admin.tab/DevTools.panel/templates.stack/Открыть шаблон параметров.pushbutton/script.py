@@ -21,7 +21,7 @@ from Autodesk.Revit.DB import *
 @notification()
 @log_plugin(EXEC_PARAMS.command_name)
 def script_execute(plugin_logger):
-    users = ["biseuv_o", "budaeva_v", "tikhomirov_amgvxad"]
+    users = ["biseuv_o", "tikhomirov_amgvxad", "tikhomirov_am"]
     if __revit__.Application.Username.lower() not in users:
         script.exit()
 
