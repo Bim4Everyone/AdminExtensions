@@ -1,0 +1,15 @@
+title:
+  ru: Проверить параметры
+  en_us: Check parameters
+
+tooltip:
+  ru: >- 
+    Сравнивает значения параметров из платформы с параметрами из шаблонов.
+  en_us: >-
+    Compares parameter values from the platform with parameters from templates.
+
+author: dosymep
+context: zero-doc
+
+min_revit_version: 2020
+max_revit_version: 2024
