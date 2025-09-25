@@ -1,0 +1,52 @@
+title:
+  ru: "Генерация таблицы выбора"
+  en_us: "Generate lookup table"
+
+tooltip:
+  ru: >-
+    Плагин предназначен для автоматического создания таблицы выбора на основе выбранных параметров элементов Revit. 
+    Результат сохраняется в формате .csv, который можно использовать для дальнейшей обработки или импорта в другие системы.
+    
+    
+    Инструкция по работе
+
+    
+    1. Запустите плагин «Генерация таблицы выбора» из панели инструментов Revit.
+
+    2. В открывшемся окне отметьте параметры, которые требуется включить в таблицу.
+
+    3. Укажите все возможные значения для каждого выбранного параметра.
+
+    4. Нажмите Подтвердить для генерации данных.
+
+    5. Выберите папку и укажите имя файла для сохранения итоговой таблицы (.csv).
+
+    6. Нажмите Сохранить — таблица выбора будет создана и сохранена.
+
+  en_us: >-
+    The plugin is designed to automatically generate a lookup table based on the selected Revit element parameters.
+    The result is saved in .csv format, which can be used for further processing or importing into other systems.
+
+    
+    Instructions
+
+    
+    1. Launch the “Generate lookup table” plugin from the Revit toolbar.
+    
+    2. In the dialog window, select the parameters you want to include in the table.
+
+    3. Enter all possible values for each selected parameter.
+
+    4. Click Confirm to generate the data.
+
+    5. Choose a folder and specify a file name to save the resulting table (.csv).
+
+    6. Click Save — the lookup table will be generated and saved.
+
+assembly: RevitGenLookupTables.dll
+command_class: RevitGenLookupTablesCommand
+
+author: dosymep
+
+min_revit_version: 2020
+max_revit_version: 2024
